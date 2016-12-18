@@ -133,17 +133,22 @@ describe("taxicab class", function () {
 
 describe("day 1 examples", function () {
     it("first", function () {
-        var result = getLastPosition("R2, L3");
+        var result = getBlocksToLastPosition("R2, L3");
         expect(result).toEqual(5);
     });
 
     it("second", function () {
-        var result = getLastPosition("R2, R2, R2");
+        var result = getBlocksToLastPosition("R2, R2, R2");
         expect(result).toEqual(2);
     });
 
     it("third", function () {
-        var result = getLastPosition("R5, L5, R5, R3");
+        var result = getBlocksToLastPosition("R5, L5, R5, R3");
         expect(result).toEqual(12);
+    });
+
+    it("third", function () {
+        var result = getBlocksToFirstSecondedPosition("R8, R4, R4, R8");
+        expect(result).toEqual(4);
     });
 });

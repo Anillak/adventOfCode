@@ -40,6 +40,8 @@ var directionNames = "n e s w".split(" ");
 function Taxicab() {
     this.index = 0;
     this.position = new RoadVector(0, 0);
+    this.visitedPositions = [this.position];
+    this.visitedTwice = [];
 }
 
 Taxicab.prototype.turnRight = function () {
@@ -53,8 +55,21 @@ Taxicab.prototype.turnLeft = function () {
         this.index = this.index - 1;
 };
 
+Taxicab.prototype.wasAlreadyHere = function () {
+    var currentPosition = this.position;
+    return this.visitedPositions.find(function (position) {
+        return position.x === currentPosition.x && position.y === currentPosition.y;
+    })
+};
+
 Taxicab.prototype.move = function (steps) {
-    this.position = this.position.plus(directions[directionNames[this.index]].multiply(steps));
+    for (var i = 0; i < steps; i++) {
+        this.position = this.position.plus(directions[directionNames[this.index]]);
+        if (this.wasAlreadyHere()) {
+            this.visitedTwice.push(this.position);
+        }
+        this.visitedPositions.push(this.position);
+    }
 };
 
 Taxicab.prototype.applyInstruction = function (instruction) {
@@ -67,18 +82,28 @@ Taxicab.prototype.applyInstruction = function (instruction) {
     }
 
     var steps = instruction.replace(turn, "");
-    this.move(steps);
+    return this.move(steps);
 };
 
 Taxicab.prototype.getBlocksToPay = function () {
     return this.position.blocks(new RoadVector(0, 0));
 };
 
-function getLastPosition(input) {
+function getBlocksToLastPosition(input) {
     var instructions = readInputDay1(input);
     var taxi = new Taxicab();
     instructions.forEach(function (instruction) {
         taxi.applyInstruction(instruction);
     });
+    return taxi.getBlocksToPay();
+}
+
+function getBlocksToFirstSecondedPosition(input) {
+    var instructions = readInputDay1(input);
+    var taxi = new Taxicab();
+    instructions.forEach(function (instruction) {
+        taxi.applyInstruction(instruction);
+    });
+    taxi.position = taxi.visitedTwice[0];
     return taxi.getBlocksToPay();
 }
