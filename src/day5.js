@@ -19,19 +19,29 @@ Hacker.prototype.startsWithFiveZeros = function () {
     return this.getHash().substring(0, 5) === "00000";
 };
 
-Hacker.prototype.getSixthPosition = function () {
-    return this.getHash()[5];
+Hacker.prototype.getPosition = function () {
+    return parseInt(this.getHash()[5]);
+};
+
+Hacker.prototype.getValue = function () {
+    return this.getHash()[6];
+};
+
+Hacker.prototype.isValidPosition = function () {
+    return this.getPosition() < 8 && this.getPosition() >= 0;
 };
 
 function getPassword(input) {
     var hacker = new Hacker(input);
-    var result = "";
+    var result = "________".split("");
     for (var i = 0; i < 8; i++) {
-        while(!hacker.startsWithFiveZeros()) {
+        while(!(hacker.startsWithFiveZeros() && hacker.isValidPosition() && result[hacker.getPosition()] == "_")) {
             hacker.iterate();
         }
-        result = result.concat(hacker.getSixthPosition());
+        result[hacker.getPosition()] = hacker.getValue();
         hacker.iterate();
     }
-    return result;
+    return result.reduce(function(a, b) {
+        return a.concat(b);
+    }, "");
 }

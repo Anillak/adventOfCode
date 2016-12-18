@@ -29,6 +29,6 @@ describe("md5 function", function () {
 
 xdescribe("day 5 examples", function () {
     it("first", function () {
-        expect(getPassword("abc")).toEqual("18f47a30");
+        expect(getPassword("abc")).toEqual("05ace8e3");
     });
 });
