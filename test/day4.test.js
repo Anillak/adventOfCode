@@ -13,6 +13,11 @@ describe("the helper functions", function () {
         var input = "drxevkzt-upv-crsfirkfip-893[rfikp]".split("-");
         expect(getLetters(input)).toEqual("drxevkztupvcrsfirkfip");
     });
+
+    it("getName returns the name part", function () {
+        var input = "drxevkzt-upv-crsfirkfip-893[rfikp]";
+        expect(getName(input)).toEqual("drxevkzt-upv-crsfirkfip");
+    });
 });
 
 describe("the Room class", function () {
@@ -58,6 +63,11 @@ describe("the Room class", function () {
 
     it("can check if it is real room", function () {
         expect(room.isRealRoom()).toBeTruthy();
+    });
+
+    it("decrypts name", function () {
+        var easyRoom = new Room("aaaaa-bbb-z-y-x-1[abxyz]");
+        expect(easyRoom.decrypt()).toEqual("bbbbb ccc a z y");
     });
 });
 

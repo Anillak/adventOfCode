@@ -20,11 +20,18 @@ function getLetters(array) {
     return result;
 }
 
+function getName(string) {
+    var regExp = /-[0-9]/;
+    var name = string.split(regExp);
+    return name[0];
+}
+
 function Room(string) {
     var parts = string.split("-");
     this.checksum = getChecksum(parts[parts.length - 1]);
     this.id = getID(parts[parts.length - 1]);
     this.letters = getLetters(parts);
+    this.name = getName(string);
 }
 
 Room.prototype.constructAlphabet = function () {
@@ -78,6 +85,23 @@ Room.prototype.isRealRoom = function () {
     return this.getRealChecksum() === this.checksum;
 };
 
+var engAlphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+
+Room.prototype.decrypt = function () {
+    var decryptedName = "";
+    for (var i = 0; i < this.name.length; i++) {
+        var letter = this.name[i];
+        if (letter === "-") {
+            decryptedName = decryptedName.concat(" ");
+        }
+        else {
+            var index = (engAlphabet.indexOf(letter) + this.id) % engAlphabet.length;
+            decryptedName = decryptedName.concat(engAlphabet[index]);
+        }
+    }
+    return decryptedName;
+};
+
 function getSumOfIDs(input) {
     var rooms = readInputDay4(input);
     var result = 0;
@@ -87,5 +111,27 @@ function getSumOfIDs(input) {
             result = result + room.id;
         }
     }
+    return result;
+}
+
+function getRealRooms(input) {
+    var rooms = readInputDay4(input);
+    var realRooms = [];
+    for (var j = 0; j < rooms.length; j++) {
+        var room = new Room(rooms[j]);
+        if (room.isRealRoom()) {
+            realRooms.push(room);
+        }
+    }
+    return realRooms;
+}
+
+function findNorthPoleStorage(rooms) {
+    var result;
+    rooms.forEach(function (room) {
+        if(room.decrypt() == "northpole object storage") {
+            result = room.id;
+        }
+    });
     return result;
 }
