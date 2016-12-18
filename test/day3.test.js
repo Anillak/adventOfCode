@@ -15,7 +15,7 @@ describe("triangle class", function () {
     });
 });
 
-describe("examples", function () {
+describe("day 3 examples", function () {
     it("input", function () {
         var triangles = readInputDay3("810  679   10" + "\n" + "783  255  616" + "\n" + "545  626  626" + "\n" + "84  910  149" + "\n" + "607  425  901");
         expect(triangles.length).toEqual(5);

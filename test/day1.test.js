@@ -131,7 +131,7 @@ describe("taxicab class", function () {
     });
 });
 
-describe("text examples", function () {
+describe("day 1 examples", function () {
     it("first", function () {
         var result = getLastPosition("R2, L3");
         expect(result).toEqual(5);

@@ -56,7 +56,7 @@ describe("the numpad class", function () {
     });
 });
 
-describe("text examples", function () {
+describe("day 2 examples", function () {
     it("example", function () {
         var result = getCode("ULL" + "\n" +
             "RRDDD" + "\n" +
