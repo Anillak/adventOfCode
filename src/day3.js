@@ -1,8 +1,3 @@
-function readInputDay3(input) {
-    var trimmed = input.replace(/\s+/g, ' ');
-    return trimmed.split(" ");
-}
-
 function Triangle(a, b, c) {
     this.a = parseInt(a, 10);
     this.b = parseInt(b, 10);
@@ -28,7 +23,7 @@ function getTriangles(sides) {
 }
 
 function getNumberOfTriangles(input) {
-    var sides = readInputDay3(input);
+    var sides = readInput(trimInput(input, " "), " ");
     var count = 0;
     var triangles = getTriangles(sides);
     triangles.forEach(function (triangle) {

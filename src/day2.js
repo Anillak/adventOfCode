@@ -1,39 +1,41 @@
-function readInputDay2(input) {
-    return input.split("\n");
-}
+var directions = {
+    "D": new Vector(0, 1),
+    "L": new Vector(-1, 0),
+    "U": new Vector(0, -1),
+    "R": new Vector(1, 0)
+};
 
-function NumPadVector(x, y) {
-    this.x = x;
-    this.y = y;
-}
-
-NumPadVector.prototype.plus = function (other) {
-    var newX = this.x + other.x;
-    if (newX < 0) newX = 0;
-    else if (newX > 2) newX = 2;
-    var newY = this.y + other.y;
-    if (newY < 0) newY = 0;
-    else if (newY > 2) newY = 2;
-    return new NumPadVector(newX, newY);
+var canGoTo = {
+    "1": ["D"],
+    "2": ["D", "R"],
+    "3": ["D", "U", "L", "R"],
+    "4": ["D", "L"],
+    "5": ["R"],
+    "6": ["D", "U", "L", "R"],
+    "7": ["D", "U", "L", "R"],
+    "8": ["D", "U", "L", "R"],
+    "9": ["L"],
+    "A": ["U", "R"],
+    "B": ["D", "U", "L", "R"],
+    "C": ["U", "L"],
+    "D": ["U"]
 };
 
 function NumPad(x, y) {
-    this.position = new NumPadVector(x, y);
+    this.position = new Vector(x, y);
     this.numpad = new Array(3);
-    this.numpad[0] = [1, 2, 3];
-    this.numpad[1] = [4, 5, 6];
-    this.numpad[2] = [7, 8, 9];
+    this.numpad[0] = ["", "", "1", "", ""];
+    this.numpad[1] = ["", "2", "3", "4", ""];
+    this.numpad[2] = ["5", "6", "7", "8", "9"];
+    this.numpad[3] = ["", "A", "B", "C", ""];
+    this.numpad[4] = ["", "", "D", "", ""];
 }
 
-var numDirections = {
-    "D": new NumPadVector(0, 1),
-    "L": new NumPadVector(-1, 0),
-    "U": new NumPadVector(0, -1),
-    "R": new NumPadVector(1, 0)
-};
-
 NumPad.prototype.move = function (direction) {
-    this.position = this.position.plus(numDirections[direction]);
+    if(canGoTo[this.numpad[this.position.y][this.position.x]].indexOf(direction) != -1)
+    {
+        this.position = this.position.plus(directions[direction]);
+    }
 };
 
 NumPad.prototype.getSingleCodeFromLine = function (line) {
@@ -44,8 +46,8 @@ NumPad.prototype.getSingleCodeFromLine = function (line) {
 };
 
 function getCode(input) {
-    var code = readInputDay2(input);
-    var np = new NumPad(1, 1);
+    var code = readInput(input, "\n");
+    var np = new NumPad(0, 2);
     var result = "";
     code.forEach(function (line) {
         result = result.concat(np.getSingleCodeFromLine(line));

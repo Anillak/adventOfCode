@@ -30,7 +30,7 @@ describe("triangle construction", function () {
 
 describe("day 3 examples", function () {
     it("input", function () {
-        var sides = readInputDay3("810  679   10 783  255  616 545  626  626 84  910  149 607  425  901 2 6 99");
+        var sides = readInput(trimInput("810  679   10 783  255  616 545  626  626 84  910  149 607  425  901 2 6 99", " "), " ");
         var triangles = getTriangles(sides);
         expect(triangles.length).toEqual(6);
         var triangle = triangles[2];

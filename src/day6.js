@@ -1,6 +1,6 @@
 function getErrorCorrected(input) {
     var letters = new Array(8);
-    var messages = input.split(",");
+    var messages = readInput(input, ",");
 
     for (var i = 0; i < messages.length; i++) {
         for (var j = 0; j < 8; j++) {

@@ -1,7 +1,3 @@
-function readInputDay4(input) {
-    return input.split(",");
-}
-
 function getChecksum(string) {
     var regExp = /\[([^\]]+)\]/;
     var matches = regExp.exec(string);
@@ -103,7 +99,7 @@ Room.prototype.decrypt = function () {
 };
 
 function getSumOfIDs(input) {
-    var rooms = readInputDay4(input);
+    var rooms = readInput(input, ",");
     var result = 0;
     for (var j = 0; j < rooms.length; j++) {
         var room = new Room(rooms[j]);
@@ -115,7 +111,7 @@ function getSumOfIDs(input) {
 }
 
 function getRealRooms(input) {
-    var rooms = readInputDay4(input);
+    var rooms = readInput(input, ",");
     var realRooms = [];
     for (var j = 0; j < rooms.length; j++) {
         var room = new Room(rooms[j]);
