@@ -13,7 +13,7 @@ describe("the IP class", function () {
         expect(complicatedIP.outside).toEqual(["itgslvpxoqqakli", "wsgkbwwtbmfnddt", "iwyhyatqetsreeyhh"]);
     });
 
-    it("has helper functions for abba", function () {
+    it("has a helper functions for abba", function () {
         expect(isAbba("abba")).toBeTruthy();
         expect(isAbba("aaaa")).toBeFalsy();
         expect(isAbba("baba")).toBeFalsy();
@@ -21,8 +21,20 @@ describe("the IP class", function () {
         expect(isAbba("sdfdgfaxzzxb")).toBeTruthy();
     });
 
-    it("checks if the ip supports TLS", function () {
-        expect(ip.supportsTLS()).toBeTruthy();
+    it("has a helper functions for aba", function () {
+        expect(getAbas("aba")).toEqual(["aba"]);
+        expect(getAbas("aaaa")).toEqual([]);
+        expect(getAbas("baba")).toEqual(["bab","aba"]);
+        expect(getAbas("axyyxb")).toEqual([]);
+        expect(getAbas("sdfdgfaxzzxb")).toEqual(["dfd"]);
+    });
+
+    it("has a helper function for bab", function () {
+        expect(hasBab("aba", "bab")).toBeTruthy();
+        expect(hasBab("xyzaz", "aza")).toBeTruthy();
+        expect(hasBab("abcde", "lol")).toBeFalsy();
+        expect(hasBab("hohoho", "jaj")).toBeFalsy();
+        expect(hasBab("ohwell", "bab")).toBeFalsy();
     });
 
 });
@@ -51,6 +63,31 @@ describe("day 7 examples", function () {
     it("fifth", function () {
         var ip = new IP("itgslvpxoqqakli[arktzcssgkxktejbno]wsgkbwwtbmfnddt[zblrboqsvezcgfmfvcz]iwyhyatqetsreeyhh");
         expect(ip.supportsTLS()).toBeFalsy();
+    });
+
+    it("first v2", function () {
+        var ip = new IP("aba[bab]xyz");
+        expect(ip.supportsSSL()).toBeTruthy();
+    });
+
+    it("second v2", function () {
+        var ip = new IP("xyx[xyx]xyx");
+        expect(ip.supportsSSL()).toBeFalsy();
+    });
+
+    it("third v2", function () {
+        var ip = new IP("aaa[kek]eke");
+        expect(ip.supportsSSL()).toBeTruthy();
+    });
+
+    it("fourth v2", function () {
+        var ip = new IP("zazbz[bzb]cdb");
+        expect(ip.supportsSSL()).toBeTruthy();
+    });
+
+    it("fifth v2", function () {
+        var ip = new IP("itgslvpxoqqakli[arktzcssgkxktejbno]wsgkbwwtbmfmddt[zblrboqsvezcgfmfvcz]iwyhyatqetsreeyhh");
+        expect(ip.supportsSSL()).toBeTruthy();
     });
 
 });

@@ -18,6 +18,26 @@ function hasAbba(array) {
     return result;
 }
 
+function getAbas(string) {
+    var abas = [];
+    for (var i = 0; i < string.length-2; i++) {
+        if (string[i] === string[i+2] && string[i] !== string[i+1]) {
+            abas.push(string[i]+string[i+1]+string[i+2]);
+        }
+    }
+    return abas;
+}
+
+function hasBab(string, aba) {
+    var hasBab = false;
+    for (var i = 0; i < string.length-2; i++) {
+        if (string[i] === aba[1] && string[i+1] === aba[0] && string[i+2] === aba[1]) {
+            hasBab = true;
+        }
+    }
+    return hasBab;
+}
+
 function IP(string) {
     this.inside = [];
     this.outside = [];
@@ -41,15 +61,48 @@ function IP(string) {
 }
 
 IP.prototype.supportsTLS = function () {
-    return !hasAbba(this.inside) && hasAbba(this.outside);
+    return !hasAbba(this.inside, isAbba) && hasAbba(this.outside, isAbba);
 };
 
-function getCountOfSupportingIPs(input) {
+IP.prototype.supportsSSL = function () {
+    var abas = [];
+    for (var i = 0; i < this.outside.length; i++)
+    {
+        abas.push(getAbas(this.outside[i]));
+    }
+    abas = abas.reduce(function(a, b) {
+        return a.concat(b);
+    }, []);
+    var result = false;
+    for (var j = 0; j < abas.length; j++)
+    {
+        for (var k = 0; k < this.inside.length; k++) {
+            if (hasBab(this.inside[k], abas[j])) {
+                result = true;
+            }
+        }
+    }
+    return result;
+};
+
+function getCountOfTLSSupportingIPs(input) {
     var ips = readInput(input, ",");
     var count = 0;
     ips.forEach(function (string) {
         var ip = new IP(string);
         if (ip.supportsTLS()) {
+            count++;
+        }
+    });
+    return count;
+}
+
+function getCountOfSSLSupportingIPs(input) {
+    var ips = readInput(input, ",");
+    var count = 0;
+    ips.forEach(function (string) {
+        var ip = new IP(string);
+        if (ip.supportsSSL()) {
             count++;
         }
     });
